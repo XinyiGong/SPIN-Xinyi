@@ -67,6 +67,6 @@ function [ilcut iucut] = FindResidualBoundTest(N, X, wr, wr2)
             ub = locs - wr2 * w;
         end
     end
-    % plot the peak regions
+    
     ilcut = max(find((X - lb)<=0));
     iucut = min(find((X - ub)>=0));

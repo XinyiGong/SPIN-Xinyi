@@ -43,41 +43,8 @@ plot(X,N,'g.-');
 %   find the peaks in histograms  
     hold on
 end
-    [pks,locs,w] = findpeaks(N,X,'MinPeakHeight',1/3*max(N));
-    if isempty(pks) % maximum at the ends
-        [pks,locn] = max(N);
-        if locn == 1
-            lb = X(1);
-            yn = [flip(N(2:end)) N];
-            [pks,locs,w] = findpeaks(yn,'MinPeakHeight',1/3*max(N));
-            ub = min((X(1) + wr * w * abs(X(2)-X(1))), X(end));
-        else
-            ub = X(end);
-            yn = [N flip(N(1:end-1))];
-            [pks,locs,w] = findpeaks(yn,'MinPeakHeight',1/3*max(N));
-            lb = max((X(end) - wr * w * abs(X(2)-X(1))), X(1));
-        end
-    elseif size(pks,2) > 1 % mulitple peaks
-        mflag = 0;
-        for iii = 1:size(pks,2)-1
-            if (locs(iii) + wr * w(iii)) < (locs(iii+1) - wr * w(iii+1))
-                mflag = 1;
-            end
-        end
-        if mflag == 1
-            ub = X(end);
-            lb = X(1);
-        else % combine multiple peaks into one region
-            ub = min ((locs(end) + wr * w(end)), X(end));
-            lb = max ((locs(1) - wr * w(1)), X(1));
-        end
-    else % single peak
-        ub = min ((locs + wr * w), X(end));
-        lb = max ((locs - wr * w), X(1));
-    end
+    [ilcut iucut] = FindZeroPointCorrectionBound(N, X, wr, wr2);
     % plot the peak regions
-    ilcut = max(find((X - lb)<=0));
-    iucut = min(find((X - ub)>=0));
     if histplot
     plot(X(ilcut:iucut),N(ilcut:iucut),'r.-');
     end
@@ -335,41 +302,8 @@ plot(X,N,'b.-');
 %   find the peaks in histograms  
     hold on
 end
-    [pks,locs,w] = findpeaks(N,X,'MinPeakHeight',1/3*max(N));
-    if isempty(pks) % maximum at the ends
-        [pks,locn] = max(N);
-        if locn == 1
-            lb = X(1);
-            yn = [flip(N(2:end)) N];
-            [pks,locs,w] = findpeaks(yn,'MinPeakHeight',1/3*max(N));
-            ub = X(1) + wr * w * abs(X(2)-X(1));
-        else
-            ub = X(end);
-            yn = [N flip(N(1:end-1))];
-            [pks,locs,w] = findpeaks(yn,'MinPeakHeight',1/3*max(N));
-            lb = X(end) - wr * w * abs(X(2)-X(1));
-        end
-    elseif size(pks,2) > 1 % mulitple peaks
-        flag = 0;
-        for iii = 1:size(pks,2)-1
-            if (locs(iii) + w(iii)) < (locs(iii+1) - w(iii+1))
-                flag = 1;
-            end
-        end
-        if flag == 1
-            ub = X(end);
-            lb = X(1);
-        else % combine multiple peaks into one region
-            ub = min ((locs(end) + wr * w(end)), X(end));
-            lb = max ((locs(1) - wr * w(1)), X(1));
-        end
-    else % single peak
-        ub = min ((locs + wr * w), X(end));
-        lb = max ((locs - wr * w), X(1));
-    end
+    [ilcut iucut] = FindZeroPointCorrectionBound(N, X, wr, wr2);
     % plot the peak regions
-    ilcut = max(find((X - lb)<=0));
-    iucut = min(find((X - ub)>=0));
     if histplot
     plot(X(ilcut:iucut),N(ilcut:iucut),'r.-');
     end
@@ -390,41 +324,8 @@ plot(X,N,'b.-');
 %   find the peaks in histograms  
     hold on
 end
-    [pks,locs,w] = findpeaks(N,X,'MinPeakHeight',1/3*max(N));
-    if isempty(pks) % maximum at the ends
-        [pks,locn] = max(N);
-        if locn == 1
-            lb = X(1);
-            yn = [flip(N(2:end)) N];
-            [pks,locs,w] = findpeaks(yn,'MinPeakHeight',1/3*max(N));
-            ub = X(1) + wr * w * abs(X(2)-X(1));
-        else
-            ub = X(end);
-            yn = [N flip(N(1:end-1))];
-            [pks,locs,w] = findpeaks(yn,'MinPeakHeight',1/3*max(N));
-            lb = X(end) - wr * w * abs(X(2)-X(1));
-        end
-    elseif size(pks,2) > 1 % mulitple peaks
-        flag = 0;
-        for iii = 1:size(pks,2)-1
-            if (locs(iii) + w(iii)) < (locs(iii+1) - w(iii+1))
-                flag = 1;
-            end
-        end
-        if flag == 1
-            ub = X(end);
-            lb = X(1);
-        else % combine multiple peaks into one region
-            ub = min ((locs(end) + wr * w(end)), X(end));
-            lb = max ((locs(1) - wr * w(1)), X(1));
-        end
-    else % single peak
-        ub = min ((locs + wr * w), X(end));
-        lb = max ((locs - wr * w), X(1));
-    end
+    [ilcut iucut] = FindZeroPointCorrectionBound(N, X, wr, wr2);
     % plot the peak regions
-    ilcut = max(find((X - lb)<=0));
-    iucut = min(find((X - ub)>=0));
     if histplot
     plot(X(ilcut:iucut),N(ilcut:iucut),'r.-');
     end
