@@ -60,7 +60,7 @@ end
     elseif size(pks,2) > 1 % mulitple peaks
         mflag = 0;
         for iii = 1:size(pks,2)-1
-            if (locs(iii) + w(iii)) < (locs(iii+1) - w(iii+1))
+            if (locs(iii) + wr * w(iii)) < (locs(iii+1) - wr * w(iii+1))
                 mflag = 1;
             end
         end
@@ -170,9 +170,7 @@ end
             ub = min((X(1) + wr * w * abs(X(2)-X(1))), X(end));
         else
             lb = X(1);
-            yn = [N flip(N(1:end-1))];
-            [pks,locs,w] = findpeaks(yn,'MinPeakHeight',1/3*max(N));
-            ub = X(end) - wr2 * w * abs(X(2)-X(1));
+            ub = X(end);
         end
     elseif size(pks,2) > 1 % mulitple peaks
         for iii = 1:size(pks,2)
@@ -182,9 +180,23 @@ end
                 break
             end
         end
-        if flag == 1 % keep the peak which has 0 x value
-            ub = min((locs(zpindex) + wr * w(zpindex)), X(end));
-            lb = max((locs(zpindex) - wr * w(zpindex)), X(1));
+        if flag == 1 % keep the peak which has 0 x value and keep whichever peak linked to this peak
+            if zpindex == 1
+                linkflag = 1;
+                for iv = 1:(size(pks,2)-1)
+                    if locs(iv) + wr * w(iv) < locs(iv+1) - wr * w(iv+1)
+                        ub = min((locs(iv) + wr * w(iv)), X(end));
+                        lb = max((locs(1) - wr * w(1)), X(1));
+                        linkflag = 0;
+                        break
+                    end
+                end
+                if linkflag
+                    lb = max((locs(1) - wr * w(1)), X(1));
+                    ub = min((locs(size(pks,2)) + wr * w(size(pks,2))), X(end));
+                end
+            else
+% % % % %                         
         else % eliminate non-zero x value answers using bounds of peaks
             lb = X(1);
             ub = X(end);
@@ -1100,13 +1112,37 @@ xlb = {'E_sample';...
     'dP';...
     'dH'};
 
+
+
+% make mflag to 1 if newfilter is no stricter than the original one
+if min(histy.Esample(2,:)) >= filt_n(1,1) && max(histy.Esample(2,:)) <= filt_n(1,2) && ...
+        min(histy.Fit1R2(2,:)) >= filt_n(2,1) && max(histy.Fit1R2(2,:)) <= filt_n(2,2) && ...
+        min(histy.ModLength(2,:)) >= filt_n(X,1) && max(histy.ModLength(2,:)) <= filt_n(X,2) &&...
+        min(histy.Fit2R2(2,:)) >= filt_n(X,1) && max(histy.Fit2R2(2,:)) <= filt_n(X,2) &&...
+        min(histy.Fit1AAR(2,:)) >= filt_n(X,1) && max(histy.Fit1AAR(2,:)) <= filt_n(X,2) &&...
+        min(histy.Fit1MAR(2,:)) >= filt_n(X,1) && max(histy.Fit1MAR(2,:)) <= filt_n(X,2) &&...
+        min(histy.Fit2AAR(2,:)) >= filt_n(X,1) && max(histy.Fit2AAR(2,:)) <= filt_n(X,2) &&...
+        min(histy.Fit2MAR(2,:)) >= filt_n(X,1) && max(histy.Fit2MAR(2,:)) <= filt_n(X,2) &&...
+        min(histy.hchange(2,:)) >= filt_n(X,1) && max(histy.hchange(2,:)) <= filt_n(X,2) &&...
+        min(histy.Pchange(2,:)) >= filt_n(X,1) && max(histy.Pchange(2,:)) <= filt_n(X,2) &&...
+        min(histy.Fit4AAR(2,:)) >= filt_n(X,1) && max(histy.Fit4AAR(2,:)) <= filt_n(X,2) &&...
+        min(histy.Fit4MAR(2,:)) >= filt_n(X,1) && max(histy.Fit4MAR(2,:)) <= filt_n(X,2) &&...
+        min(histy.P_star(2,:)) >= filt_n(X,1) && max(histy.P_star(2,:)) <= filt_n(X,2) &&...
+        min(histy.h_star(2,:)) >= filt_n(X,1) && max(histy.h_star(2,:)) <= filt_n(X,2) &&...
+        min(histy.dP(2,:)) >= filt_n(X,1) && max(histy.dP(2,:)) <= filt_n(X,2) &&...
+        min(histy.dH(2,:)) >= filt_n(X,1) && max(histy.dH(2,:)) <= filt_n(X,2)
+    mflag = 1;
+end
+        
+        
+        
+
+
 %     function UpdateFilter2(~,~)
         filt = [xlb, num2cell(filt_n,2)];
 % % % if histplot == 0 && mflag == 0
         assignin('base', 'NewFilt', filt);
 % % % end
 %     end
-
-
 
 end
