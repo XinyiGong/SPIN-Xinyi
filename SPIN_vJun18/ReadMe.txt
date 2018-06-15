@@ -32,3 +32,6 @@ SingleSearchAllSegments.m
 mypolyfit.m
 rsquare.m
 
+
+
+ Major modification Jun 2018 by Xinyi
