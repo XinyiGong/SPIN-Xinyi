@@ -51,3 +51,5 @@ function [ilcut iucut] = FindResidualBoundOriginal(N, X, wr, wr2)
     end
     ilcut = max(find((X - lb)<=0));
     iucut = min(find((X - ub)>=0));
+    
+end

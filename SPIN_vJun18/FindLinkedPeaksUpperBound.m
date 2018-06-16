@@ -16,3 +16,5 @@ function [ubindex] = FindLinkedPeaksUpperBound(locs, w, wr, zpindex)
                     ubindex = size(locs,2);
                 end
             end
+            
+end

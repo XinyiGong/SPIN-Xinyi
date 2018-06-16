@@ -1,14 +1,13 @@
 function [SearchResults, npoints, HistSearchResults, mflag] = SearchExplorer(TestData, FR, filt, Plastic, BEuler, bins, wr, wr2, limx,limzerox,scatterplot, histplot,sliderplot)
-% 
-% [SearchResults, npoints] = filterResults(FR, filt);
-% Fit4 = [SearchResults.Fit4];
+
+[SearchResults, npoints] = filterResults(FR, filt); % filter results
 
 
     index = 1;
-   if scatterplot
+if scatterplot
     figure(1) % scatter plot
-   end
-    [SearchResults, npoints] = MyPlotSearch(FR, filt,scatterplot); % filter results and scatter plot
+    [h] = MyPlotSearch(SearchResults); % scatter plot
+end
     FR = SearchResults;
     SZ = get(0,'Screensize');
     SZ(2) = SZ(2) + 50;

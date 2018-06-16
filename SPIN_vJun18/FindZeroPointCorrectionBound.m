@@ -36,3 +36,5 @@ function [ilcut iucut] = FindZeroPointCorrectionBound(N, X, wr, wr2)
     
     ilcut = max(find((X - lb)<=0));
     iucut = min(find((X - ub)>=0));
+    
+end

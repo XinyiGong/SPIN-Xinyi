@@ -40,3 +40,4 @@ function [ilcut, iucut] = FindNegativeResidualBound(N, X, wr)
     
     ilcut = max(find((X - lb)<=0));
     iucut = min(find((X - ub)>=0));
+end

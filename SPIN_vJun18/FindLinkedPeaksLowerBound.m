@@ -16,3 +16,5 @@ function [lbindex] = FindLinkedPeaksLowerBound(locs, w, wr, zpindex)
                     lbindex = 1;
                 end
             end
+            
+end
