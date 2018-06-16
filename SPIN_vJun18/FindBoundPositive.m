@@ -1,6 +1,8 @@
-function [ilcut, iucut] = FindResidualBound(N, X, wr)
+function [ilcut, iucut] = FindBoundPositive(N, X, wr)
 
 % Gives lower bound index of X as "ilcut" and upper boudn index of X as "iucut"
+% Find peak/peaks near 0 (x value) when all X values are positive
+
 
     yn = [flip(N(2:end)) N];
     xn = [X(1)-(flip(X(2:end))-X(1)) X];

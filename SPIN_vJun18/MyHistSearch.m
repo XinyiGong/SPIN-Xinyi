@@ -1,4 +1,4 @@
-function [histy, mflag] = MyHistSearch(SearchResults, bins, wr, wr2, histplot, nextnewfilt)
+function [histy, mflag] = MyHistSearch(SearchResults, bins, wr, histplot, nextnewfilt)
 
 
 
@@ -45,7 +45,7 @@ plot(X,N,'g.-');
 %   find the peaks in histograms  
     hold on
 end
-    [ilcut iucut] = FindZeroPointCorrectionBound(N, X, wr, wr2);
+    [ilcut iucut] = FindZeroPointCorrectionBound(N, X, wr);
     % plot the peak regions
     if histplot
     plot(X(ilcut:iucut),N(ilcut:iucut),'r.-');
@@ -128,7 +128,7 @@ plot(X,N,'b.-');
 %   find the peaks in histograms  
     hold on
 end
-    [ilcut iucut] = FindResidualBound(N, X, wr);
+    [ilcut iucut] = FindBoundPositive(N, X, wr);
     % plot the peak regions
     if histplot
     plot(X(ilcut:iucut),N(ilcut:iucut),'r.-');
@@ -150,7 +150,7 @@ plot(X,N,'b.-');
 %   find the peaks in histograms  
     hold on
 end
-    [ilcut iucut] = FindResidualBound(N, X, wr);
+    [ilcut iucut] = FindBoundPositive(N, X, wr);
     % plot the peak regions
     if histplot
     plot(X(ilcut:iucut),N(ilcut:iucut),'r.-');
@@ -172,7 +172,7 @@ plot(X,N,'b.-');
 %   find the peaks in histograms  
     hold on
 end
-    [ilcut iucut] = FindResidualBound(N, X, wr);
+    [ilcut iucut] = FindBoundPositive(N, X, wr);
     % plot the peak regions
     if histplot
     plot(X(ilcut:iucut),N(ilcut:iucut),'r.-');
@@ -194,7 +194,7 @@ plot(X,N,'b.-');
 %   find the peaks in histograms  
     hold on
 end
-    [ilcut iucut] = FindResidualBound(N, X, wr);
+    [ilcut iucut] = FindBoundPositive(N, X, wr);
     % plot the peak regions
     if histplot
     plot(X(ilcut:iucut),N(ilcut:iucut),'r.-');
@@ -260,7 +260,7 @@ plot(X, N, 'b.-');
 %   find the peaks in histograms  
     hold on
 end
-    [ilcut iucut] = FindResidualBound(N, X, wr);
+    [ilcut iucut] = FindBoundPositive(N, X, wr);
     % plot the peak regions
     if histplot
     plot(X(ilcut:iucut),N(ilcut:iucut),'r.-');
@@ -282,7 +282,7 @@ plot(X,N,'b.-');
 %   find the peaks in histograms  
     hold on
 end
-    [ilcut iucut] = FindResidualBound(N, X, wr);
+    [ilcut iucut] = FindBoundPositive(N, X, wr);
     % plot the peak regions
     if histplot
     plot(X(ilcut:iucut),N(ilcut:iucut),'r.-');
@@ -304,7 +304,7 @@ plot(X,N,'b.-');
 %   find the peaks in histograms  
     hold on
 end
-    [ilcut iucut] = FindZeroPointCorrectionBound(N, X, wr, wr2);
+    [ilcut iucut] = FindZeroPointCorrectionBound(N, X, wr);
     % plot the peak regions
     if histplot
     plot(X(ilcut:iucut),N(ilcut:iucut),'r.-');
@@ -326,7 +326,7 @@ plot(X,N,'b.-');
 %   find the peaks in histograms  
     hold on
 end
-    [ilcut iucut] = FindZeroPointCorrectionBound(N, X, wr, wr2);
+    [ilcut iucut] = FindZeroPointCorrectionBound(N, X, wr);
     % plot the peak regions
     if histplot
     plot(X(ilcut:iucut),N(ilcut:iucut),'r.-');

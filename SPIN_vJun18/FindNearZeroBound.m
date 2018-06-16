@@ -1,11 +1,12 @@
 function [ilcut, iucut] = FindNearZeroBound(N, X, wr)
 
 % Gives lower bound index of X as "ilcut" and upper boudn index of X as "iucut"
+% Find peak/peaks near 0 (x value)
 
 if X(1) >= 0 % all X >= 0
-    [ilcut, iucut] = FindResidualBound(N, X, wr);
+    [ilcut, iucut] = FindBoundPositive(N, X, wr);
 elseif X(end) <= 0 % all X <= 0
-    [ilcut, iucut] = FindNegativeResidualBound(N, X, wr);
+    [ilcut, iucut] = FindBoundNegative(N, X, wr);
 else
     [~,locs,w] = findpeaks(N, X,'MinPeakHeight',1/3*max(N));
     flag = 0;
@@ -83,13 +84,13 @@ else
             if locs < 0
                 xn = X(X<0);
                 yn = N(X<0);
-                [ilcut, iucut] = FindNegativeResidualBound(yn, xn, wr);
+                [ilcut, iucut] = FindBoundNegative(yn, xn, wr);
                 lb = xn(ilcut);
                 ub = min(locs + wr * w, X(end));
             else
                 xn = X(X>0);
                 yn = N(X>0);
-                [ilcut, iucut] = FindResidualBound(yn, xn, wr);
+                [ilcut, iucut] = FindBoundPositive(yn, xn, wr);
                 ub = xn(iucut);
                 lb = max(locs - wr * w, X(1));
             end

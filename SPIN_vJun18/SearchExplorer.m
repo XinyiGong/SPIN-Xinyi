@@ -1,4 +1,4 @@
-function [SearchResults, npoints, HistSearchResults, mflag] = SearchExplorer(TestData, FR, filt, Plastic, BEuler, bins, wr, wr2, limx,limzerox, MaxAnsNum, TestMode)
+function [SearchResults, npoints, HistSearchResults, mflag] = SearchExplorer(TestData, FR, filt, Plastic, BEuler, bins, wr, limx,limzerox, MaxAnsNum, TestMode)
 
 [SearchResults, npoints] = filterResults(FR, filt); % filter results
     FR = SearchResults;
@@ -28,7 +28,7 @@ function [SearchResults, npoints, HistSearchResults, mflag] = SearchExplorer(Tes
      	figure(2) % histograms
    	end
     % bins is number of bins for histograms
-    [HistSearchResults, mflag] = MyHistSearch(SearchResults, bins, wr, wr2, histplot, nextnewfilt);
+    [HistSearchResults, mflag] = MyHistSearch(SearchResults, bins, wr, histplot, nextnewfilt);
    	if histplot
      	set(figure(2), 'Position', SZ);
     end
