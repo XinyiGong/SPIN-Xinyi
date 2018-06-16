@@ -12,7 +12,7 @@ function [ilcut, iucut] = FindNegativeResidualBound(N, X, wr)
     elseif size(pks,2) > 2 % mulitple peaks
         pksn = size(pks,2);
         for iii = 1:(floor(pksn/2)+1)
-            if ((locs(iii) - wr * w(iii)) <= 0) && ((locs(iii) + wr * w(iii)) >= 0) % check if any of the peaks has 0 x value
+            if ((locs(iii) - wr * w(iii)) <= X(end)) && ((locs(iii) + wr * w(iii)) >= X(end)) % check if any of the peaks has X(end) value
                 flag = 1;
                	zpindex = iii;
              	break
