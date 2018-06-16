@@ -9,7 +9,7 @@ function [SearchResults, npoints, HistSearchResults, mflag] = SearchExplorer(Tes
     figure(1) % scatter plot
    end
     [SearchResults, npoints] = MyPlotSearch(FR, filt,scatterplot); % filter results and scatter plot
-    
+    FR = SearchResults;
     SZ = get(0,'Screensize');
     SZ(2) = SZ(2) + 50;
     SZ(4) = SZ(4) - 130;   
