@@ -1,4 +1,4 @@
-function [ilcut iucut] = FindResidualBound(N, X, wr, wr2)
+function [ilcut, iucut] = FindResidualBound(N, X, wr)
 
 % Gives lower bound index of X as "ilcut" and upper boudn index of X as "iucut"
 
@@ -6,7 +6,7 @@ function [ilcut iucut] = FindResidualBound(N, X, wr, wr2)
     xn = [X(1)-(flip(X(2:end))-X(1)) X];
     [pks,locs,w] = findpeaks(yn, xn,'MinPeakHeight',1/3*max(yn));
     flag = 0;
-    if isempty(pks) % maximum at the end
+    if isempty(pks) % maximum peak at the high x end
         lb = X(1);
         ub = X(end);
     elseif size(pks,2) > 2 % mulitple peaks
@@ -19,22 +19,16 @@ function [ilcut iucut] = FindResidualBound(N, X, wr, wr2)
             end
         end
         if flag
-            if (locs(zpindex) + wr * w(zpindex)) >= (locs(zpindex+1) - wr * w(zpindex+1))
-                ubindex = FindLinkedPeaksUpperBound(X, pks, locs, w, wr, zpindex);
-                ub = min((locs(ubindex) + wr * w(ubindex)), X(end));
+            if zpindex == pksn
+                ub= min((locs(zpindex) + wr * w(zpindex)), X(end));
                 lb = X(1);
             else
-                ubindex = FindLinkedPeaksUpperBound(X, pks, locs, w, wr, zpindex+1);
-%                 if pks(zpindex) < max(pks(zpindex+1:ubindex))
-                    ub = min((locs(ubindex) + wr * w(ubindex)), X(end));
-                    lb = X(1);
-%                 else
-%                     ub = min((locs(zpindex) + wr * w(zpindex)), X(end));
-%                     lb = X(1);
-%                 end
+                ubindex = FindLinkedPeaksUpperBound(locs, w, wr, zpindex+1);
+                ub = min((locs(ubindex) + wr * w(ubindex)), X(end));
+               	lb = X(1);
             end
         else
-            ubindex = FindLinkedPeaksUpperBound(X, pks, locs, w, wr, (pksn/2+1));
+            ubindex = FindLinkedPeaksUpperBound(locs, w, wr, (pksn/2+1));
             ub = min((locs(ubindex) + wr * w(ubindex)), X(end));
             lb = X(1);
         end
