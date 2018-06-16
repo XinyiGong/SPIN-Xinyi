@@ -1,6 +1,4 @@
-function [histy, mflag] = MyHistSearch(SearchResults, bins, wr, wr2, histplot, nextnewfilt)
-
-
+function [histy, mflag] = MyHistSearch(SearchResults, bins, wr, wr2, histplot, MaxAnsNum)
 
 histy.Estar = NaN;
 histy.Esample = NaN;
@@ -439,7 +437,7 @@ end
 
 %     function UpdateFilter2(~,~)
         filt = [xlb, num2cell(filt_n,2)];
-if nextnewfilt == 1 && mflag == 0
+if histplot == 0 && mflag == 0
         assignin('base', 'NewFilt', filt);
 end
 %     end

@@ -1,17 +1,54 @@
-function [SearchResults, npoints, HistSearchResults, mflag] = SearchExplorer(TestData, FR, filt, Plastic, BEuler, bins, wr, wr2, limx,limzerox,scatterplot, histplot,sliderplot)
+function [SearchResults, npoints, HistSearchResults, mflag] = SearchExplorer(TestData, FR, filt, Plastic, BEuler, bins, wr, wr2, limx,limzerox, MaxAnsNum, TestMode)
 
 [SearchResults, npoints] = filterResults(FR, filt); % filter results
-
-
-    index = 1;
-if scatterplot
-    figure(1) % scatter plot
-    [h] = MyPlotSearch(SearchResults); % scatter plot
-end
     FR = SearchResults;
     SZ = get(0,'Screensize');
     SZ(2) = SZ(2) + 50;
     SZ(4) = SZ(4) - 130;   
+    
+    if size(SearchResults,2) <= MaxAnsNum % Number of answers is small enough
+        nextnewfilt = 0;
+        histplot = 0;
+        ScatterSliderSwitch = 1;
+    else
+        if TestMode
+            histplot = 1;
+            nextnewfilt = 1;
+            ScatterSliderSwitch = 1;
+        else
+            histplot = 0;
+            nextnewfilt = 1;
+            ScatterSliderSwitch = 0;
+        end
+    end
+    
+    
+    
+    if histplot 
+     	figure(2) % histograms
+   	end
+    % bins is number of bins for histograms
+    [HistSearchResults, mflag] = MyHistSearch(SearchResults, bins, wr, wr2, histplot, nextnewfilt);
+   	if histplot
+     	set(figure(2), 'Position', SZ);
+    end
+    
+       
+    if mflag || ScatterSliderSwitch
+    figure(3) % histograms with sliders
+    subslider(HistSearchResults)
+    
+    set(figure(3), 'Position', SZ);
+    end
+
+    
+    
+    index = 1;
+if mflag || ScatterSliderSwitch
+    figure(1) % scatter plot
+    [h] = MyPlotSearch(SearchResults); % scatter plot
+end
+    
     
     Fit4 = [FR.Fit4];
 %% grab the index of the datapoint and print these variables on the plot
@@ -177,7 +214,7 @@ end
         assignin('base', 'Stress_Strain_Search_Results', sht);
     end
 %%   
-if scatterplot
+if mflag || ScatterSliderSwitch
     dcm_obj = datacursormode(gcf);
     set(dcm_obj, 'enable', 'on');
     set(dcm_obj,'UpdateFcn',@hitme);
@@ -208,20 +245,5 @@ if scatterplot
     set(figure(1), 'Position', SZ);
 end
 
-       if histplot
-    figure(2) % histograms
-       end
-    % bins is number of bins for histograms
-    [HistSearchResults, mflag] = MyHistSearch(SearchResults, bins, wr, wr2, histplot);
-    if histplot
-    set(figure(2), 'Position', SZ);
-    end
-    
-    if sliderplot || mflag
-    figure(3) % histograms with sliders
-    subslider(HistSearchResults)
-    
-    set(figure(3), 'Position', SZ);
-    end
 
 end

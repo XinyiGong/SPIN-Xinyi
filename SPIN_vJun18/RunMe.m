@@ -31,13 +31,11 @@ if longest <= shortest
     return
 end
 seg_sizes = [shortest:25:longest]; % don't go crazy with the number of segments [20:5:200]
-scatterplot = 0;
-histplot = 1;                         
-sliderplot = 1;
 wr = 2; % width ratio which is used to choose filter range according to peak width
 wr2 = 0.8; % width ration which is used to choose filter range (exclusion peaks) according to peak width
 bins = 20; % number of bins for the historgram plots
-MaxResNum = 50;
+MaxAnsNum = 50;
+TestMode = 1;
 
 % Sorting/Cut off Parameters
 % Filt: choose from 'R21', 'AAR1', 'MAR1', 'R22', 'AAR1', 'MAR1',
@@ -78,30 +76,21 @@ BEuler=[0	0	0]'; %phi1 Phi phi2 for plotting purposes
 
 
 % Filter the Results and Plot
-[SearchResults, npoints, HistSearchResults, mflag] = Analyze(TestData, seg_sizes, Filt, Plastic, BEuler, bins, wr, wr2, limx,limzerox,scatterplot, histplot,sliderplot);
+[SearchResults, npoints, HistSearchResults, mflag] = Analyze(TestData, seg_sizes, Filt, Plastic, BEuler, bins, wr, wr2, limx,limzerox, MaxAnsNum, TestMode);
 
 
 %% Automatic Filt after initial filting
 % close all
 
 while 1
-if size(SearchResults,2) <= MaxResNum
-    scatterplot = 1;
-    histplot = 1;
-    sliderplot = 0;
-end
-
-if mflag
-    scatterplot = 1;
-    histplot = 1;
-    sliderplot = 1;
-end
-
+    if mflag || (size(SearchResults,2) <= MaxAnsNum) % stop when automated filter is not filtering or number of answers is small enough
+        break
+    end
 % Filter the Results and Plot
-[SearchResults, npoints, HistSearchResults, mflag] = SearchExplorer(TestData, SearchResults, NewFilt, Plastic, BEuler, bins, wr, wr2, limx,limzerox,scatterplot, histplot,sliderplot);
-if scatterplot||histplot||sliderplot
-    break % stop for manual input
-end
+    [SearchResults, npoints, HistSearchResults, mflag] = SearchExplorer(TestData, SearchResults, NewFilt, Plastic, BEuler, bins, wr, wr2, limx,limzerox, MaxAnsNum, TestMode);
+    if TestMode % stop at every step in test mode
+        break
+    end
 end
 
 %% Stats of E, YS, and H after Save All ISS has been done
