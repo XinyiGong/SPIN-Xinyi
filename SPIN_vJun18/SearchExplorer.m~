@@ -1,7 +1,5 @@
 function [SearchResults, npoints, HistSearchResults, mflag] = SearchExplorer(TestData, FR, filt, Plastic, BEuler, bins, wr, wr2, limx,limzerox,scatterplot, histplot,sliderplot)
-% 
-% [SearchResults, npoints] = filterResults(FR, filt);
-% Fit4 = [SearchResults.Fit4];
+
 
 
     index = 1;

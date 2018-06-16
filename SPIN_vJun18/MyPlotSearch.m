@@ -8,6 +8,9 @@ Fit4 = [SearchResults.Fit4];
 %% 3D scatter plot w/ colorbar (4 variabless)
 % x y z, color
 % maybe use 'patch' for large dataset plots
+% the variables used for scatter3 must match the variables in SearchExplorer.m 
+% e.g. index = find(p(1) == [Fit4.AverageAbsoluteResidual] & p(2) == [FR.E_star] & p(3) == [FR.h_change], 1, 'first');
+
 if scatterplot
 h = scatter3([Fit4.AverageAbsoluteResidual], [SearchResults.E_star], [SearchResults.h_change],10, [Fit4.MaxAbsoluteResidual], 'filled');
 cmap=[1 0 0; 1 1 0; 0 1 0; 0 1 1; 0 0 1];

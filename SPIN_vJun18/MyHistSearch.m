@@ -437,9 +437,9 @@ end
 
 %     function UpdateFilter2(~,~)
         filt = [xlb, num2cell(filt_n,2)];
-% % % if histplot == 0 && mflag == 0
+if histplot == 0 && mflag == 0
         assignin('base', 'NewFilt', filt);
-% % % end
+end
 %     end
 
 end
