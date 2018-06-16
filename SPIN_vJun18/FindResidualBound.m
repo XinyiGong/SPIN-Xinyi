@@ -4,13 +4,13 @@ function [ilcut, iucut] = FindResidualBound(N, X, wr)
 
     yn = [flip(N(2:end)) N];
     xn = [X(1)-(flip(X(2:end))-X(1)) X];
-    [pks,locs,w] = findpeaks(yn, xn,'MinPeakHeight',1/3*max(yn));
+    [~,locs,w] = findpeaks(yn, xn,'MinPeakHeight',1/3*max(yn));
     flag = 0;
-    if isempty(pks) % maximum peak at the high x end
+    if isempty(locs) % maximum peak at the high x end
         lb = X(1);
         ub = X(end);
-    elseif size(pks,2) > 2 % mulitple peaks
-        pksn = size(pks,2);
+    elseif size(locs,2) > 2 % mulitple peaks
+        pksn = size(locs,2);
         for iii = 1:pksn
             if ((locs(pksn+1-iii) - wr * w(pksn+1-iii)) <= X(1)) && ((locs(pksn+1-iii) + wr * w(pksn+1-iii)) >= X(1)) % check if any of the peaks has X(1) value
                 flag = 1;
@@ -33,7 +33,7 @@ function [ilcut, iucut] = FindResidualBound(N, X, wr)
             lb = X(1);
         end
     else % single peak or max at X(1)
-        pksn = size(pks,2);
+        pksn = size(locs,2);
         ub = min((locs(pksn) + wr * w(pksn)), X(end));
       	lb = X(1);
     end

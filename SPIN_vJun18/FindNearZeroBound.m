@@ -7,20 +7,20 @@ if X(1) >= 0 % all X >= 0
 elseif X(end) <= 0 % all X <= 0
     [ilcut, iucut] = FindNegativeResidualBound(N, X, wr);
 else
-    [pks,locs,w] = findpeaks(N, X,'MinPeakHeight',1/3*max(N));
+    [~,locs,w] = findpeaks(N, X,'MinPeakHeight',1/3*max(N));
     flag = 0;
-    if isempty(pks) % maximum peak at the low or high x end
+    if isempty(locs) % maximum peak at the low or high x end
         yn = [flip(N(2:end)) N];
         xn = [X(1)-(flip(X(2:end))-X(1)) X];
-        [pks,locs,w] = findpeaks(yn, xn,'MinPeakHeight',1/3*max(yn));
-        if (~isempty(pks)) && ((locs - wr * w) <= 0) && ((locs + wr * w) >= 0)
+        [~,locs,w] = findpeaks(yn, xn,'MinPeakHeight',1/3*max(yn));
+        if (~isempty(locs)) && ((locs - wr * w) <= 0) && ((locs + wr * w) >= 0)
             ub = min(locs + wr * w, X(end));
             lb = X(1);
         else
             yn = [N flip(N(1:end-1))];
             xn = [X X(end)+(X(end)-flip(X(1:end-1)))];
-            [pks,locs,w] = findpeaks(yn, xn,'MinPeakHeight',1/3*max(yn));
-            if (~isempty(pks)) && ((locs - wr * w) <= 0) && ((locs + wr * w) >= 0)
+            [~,locs,w] = findpeaks(yn, xn,'MinPeakHeight',1/3*max(yn));
+            if (~isempty(locs)) && ((locs - wr * w) <= 0) && ((locs + wr * w) >= 0)
                 lb = max(locs - wr * w, X(1));
                 ub = X(end);
             else
@@ -28,8 +28,8 @@ else
                 ub = X(end);
             end
         end
-    elseif size(pks,2) > 1 % mulitple peaks
-        pksn = size(pks,2);
+    elseif size(locs,2) > 1 % mulitple peaks
+        pksn = size(locs,2);
         for iii = 1:pksn
             if ((locs(iii) - wr * w(iii)) <= 0) && ((locs(iii) + wr * w(iii)) >= 0) % check if any of the peaks has 0 x value
                 flag = 1;

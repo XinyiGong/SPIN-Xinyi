@@ -4,13 +4,13 @@ function [ilcut, iucut] = FindNegativeResidualBound(N, X, wr)
 
     yn = [N flip(N(1:end-1))];
     xn = [X X(end)+(X(end)-flip(X(1:end-1)))];
-    [pks,locs,w] = findpeaks(yn, xn,'MinPeakHeight',1/3*max(yn));
+    [~,locs,w] = findpeaks(yn, xn,'MinPeakHeight',1/3*max(yn));
     flag = 0;
-    if isempty(pks) % maximum peak at the low x end
+    if isempty(locs) % maximum peak at the low x end
         lb = X(1);
         ub = X(end);
-    elseif size(pks,2) > 2 % mulitple peaks
-        pksn = size(pks,2);
+    elseif size(locs,2) > 2 % mulitple peaks
+        pksn = size(locs,2);
         for iii = 1:(floor(pksn/2)+1)
             if ((locs(iii) - wr * w(iii)) <= X(end)) && ((locs(iii) + wr * w(iii)) >= X(end)) % check if any of the peaks has X(end) value
                 flag = 1;
