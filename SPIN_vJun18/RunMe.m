@@ -6,7 +6,7 @@ filepath = '/Users/Gong/OneDrive - Georgia Institute of Technology/Projects/AMTi
 filename='TiMn-500C_8mm_100um_06-06-2018.xls';
 symb = '/'; % use / on mac, use \ on windows
 file=[filepath,symb,filename];
-tnum = '001'; %used for saving
+tnum = '007'; %used for saving
 sheet = ['Test ', tnum]; %name of sheet in file
 
 Rind = 100000; %nm ie. 100000 (100um), 16500 (16.5um)
@@ -15,16 +15,15 @@ skip = [0.2 0.2]; % skips analysis with Fit1 R2 < 0.5 AND length(Fit2)/length(Fi
 % modulus also has to be real
 limx = 50; %% set to 0 as default
 limzerox = 0; %% set to 0 as default (250000 is typical for 100um on Ti)
-seg_start = 350;
-seg_end = 650;
+seg_start = 480;
+seg_end = 610;
 Eestimate = 0; % set to 0 if no need to check contact area (unit as GPa)
 
 % Zero Pt and Modulus Fit Analysis single test
 [TestData] = Driver(file, sheet, Rind, vs, skip, seg_start, seg_end, limzerox, limx, Eestimate);
 %% Filter Results
 
-wr = 2; % width ratio which is used to choose filter range according to peak width
-wr2 = 0.8; % width ration which is used to choose filter range (exclusion peaks) according to peak width
+wr = 1.5; % width ratio which is used to choose filter range according to peak width
 bins = 20; % number of bins for the historgram plots
 MaxAnsNum = 50;
 TestMode = 0;
@@ -36,7 +35,7 @@ close all
 longest = seg_end - seg_start;
 shortest = 75;
 if longest <= shortest
-     warning('shortest segment too long');
+ 	warning('shortest segment too long');
     return
 end
 seg_sizes = [shortest:25:longest]; % don't go crazy with the number of segments [20:5:200]
@@ -45,7 +44,7 @@ seg_sizes = [shortest:25:longest]; % don't go crazy with the number of segments 
 % Filt: choose from 'R21', 'AAR1', 'MAR1', 'R22', 'AAR1', 'MAR1',
 % 'Modulus', 'R23', 'Hr', 'ModLength', 'h_change', 'p_change', 'AAR4',
 % 'MAR4', 'h*', 'P*', 'dP', 'dH'
-Filt ={ 'E_sample', [0 180];...
+Filt ={ 'E_sample', [0 200];...
 %     'R21', [0 1];...
 %     'R22', [0.8 1];...
 %     'R23', [0.8 1];...
@@ -80,15 +79,14 @@ BEuler=[0	0	0]'; %phi1 Phi phi2 for plotting purposes
 
 % Initial filtering
 [SearchResults, npoints, HistSearchResults, mflag] = Analyze(TestData, seg_sizes, Filt, Plastic, BEuler, bins, wr, limx,limzerox, MaxAnsNum, TestMode);
-
+if TestMode || mflag || size(SearchResults,2) <= MaxAnsNum % stop at every step in test mode OR stop when automated filter is not filtering OR stop when the number of answers is small enough
+ 	return
+end
 % Automatic Filter after initial filtering
 % close all
 while 1
-    if mflag || (size(SearchResults,2) <= MaxAnsNum) % stop when automated filter is not filtering or number of answers is small enough
-        break
-    end
     [SearchResults, npoints, HistSearchResults, mflag] = SearchExplorer(TestData, SearchResults, NewFilt, Plastic, BEuler, bins, wr, limx,limzerox, MaxAnsNum, TestMode);
-    if TestMode % stop at every step in test mode
+    if TestMode || mflag || size(SearchResults,2) <= MaxAnsNum % stop at every step in test mode OR stop when automated filter is not filtering OR stop when the number of answers is small enough
         break
     end
 end

@@ -69,44 +69,7 @@ for ii = 1:16 % number of plots
     plot(x(:,ii),y(:,ii),'b.-');
     axis([min(x(:,ii)), max(x(:,ii)), min(y(:,ii)), max(y(:,ii))])
     
-%   find the peaks in histograms  
-%     hold on
-%     [pks,locs,w] = findpeaks(y(:,ii),x(:,ii),'MinPeakHeight',1/3*max(y(:,ii)));
-%     if isempty(pks) % maximum at the ends
-%         [pks,locn] = max(y(:,ii));
-%         if locn == 1
-%             lb = x(1,ii);
-%             yn = [y(1,ii)-1;y(:,ii)];
-%             [pks,locs,w] = findpeaks(yn);
-%             ub = x(1,ii) + w * abs(x(1,ii)-x(2,ii));
-%         else
-%             ub = x(end,ii);
-%             yn = [y(:,ii);y(end,ii)-1];
-%             [pks,locs,w] = findpeaks(yn);
-%             lb = x(end,ii) - w * abs(x(1,ii)-x(2,ii));
-%         end
-%     elseif size(pks,1) > 1 % mulitple peaks
-%         flag = 0;
-%         for iii = 1:size(pks,1)-1
-%             if (locs(iii) + w(iii)) < (locs(iii+1) - w(iii+1))
-%                 flag = 1;
-%             end
-%         end
-%         if flag
-%             warning('multiple regions for possible answers - please reselect mother answer');
-%         else % combine multiple peaks into one region
-%             ub = min ((locs(end) + w(end)), x(end,ii));
-%             lb = max ((locs(1) + w(1)), x(1,ii));
-%         end
-%     else % single peak
-%         ub = min ((locs + w), x(end,ii));
-%         lb = max ((locs - w), x(1,ii));
-%     end
-%     % plot the peak regions
-%     [clcut, ilcut] = min(abs(x(:,ii) - lb));
-%     [cucut, iucut] = min(abs(x(:,ii) - ub));
-%     plot(x(ilcut:iucut,ii),y(ilcut:iucut,ii),'g.-');
-%     
+    
     xlabel(xlb{ii});
     offset = -0.01;
     wd = 0.01;
