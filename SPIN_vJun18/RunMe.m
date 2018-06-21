@@ -15,8 +15,8 @@ skip = [0.2 0.2]; % skips analysis with Fit1 R2 < 0.5 AND length(Fit2)/length(Fi
 % modulus also has to be real
 limx = 50; %% set to 0 as default
 limzerox = 0; %% set to 0 as default (250000 is typical for 100um on Ti)
-seg_start = 480;
-seg_end = 610;
+seg_start = 450;
+seg_end = 650;
 Eestimate = 0; % set to 0 if no need to check contact area (unit as GPa)
 
 % Zero Pt and Modulus Fit Analysis single test
@@ -33,12 +33,12 @@ TestMode = 0;
 
 close all
 longest = seg_end - seg_start;
-shortest = 75;
+shortest = 110;
 if longest <= shortest
  	warning('shortest segment too long');
     return
 end
-seg_sizes = [shortest:25:longest]; % don't go crazy with the number of segments [20:5:200]
+seg_sizes = [shortest:5:longest]; % don't go crazy with the number of segments [20:5:200]
 
 % Sorting/Cut off Parameters
 % Filt: choose from 'R21', 'AAR1', 'MAR1', 'R22', 'AAR1', 'MAR1',

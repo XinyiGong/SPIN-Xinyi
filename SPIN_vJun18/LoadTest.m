@@ -15,6 +15,8 @@ TestData.nui = 0.07;
 TestData.Ei = 1140;
 TestData.nus = vs;
 TestData.skip = skip;
+TestData.SegStart = seg_start;
+TestData.SegEnd = seg_end;
 
 if isempty(num)
     warning('%s contains no data', sheet);

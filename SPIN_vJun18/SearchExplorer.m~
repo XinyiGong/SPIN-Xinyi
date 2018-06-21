@@ -1,11 +1,13 @@
 function [SearchResults, npoints, HistSearchResults, mflag] = SearchExplorer(TestData, FR, filt, Plastic, BEuler, bins, wr, limx,limzerox, MaxAnsNum, TestMode)
 
-[SearchResults, npoints] = filterResults(FR, filt); % filter results       
+[SearchResults, npoints] = filterResults(FR, filt); % filter results
+    
+    
     if isempty(SearchResults)
         SearchResults = FR;
         warning('No result left after NewFilt, need manual filter');
+        return
         TestMode = 1;
-        assignin('base', 'TestMode', TestMode);
     end
     
     FR = SearchResults;
