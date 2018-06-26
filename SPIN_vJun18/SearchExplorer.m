@@ -124,8 +124,8 @@ end
         legend('Stress-Strain','Modulus Line', 'Hardening Fit', 'Strain Offset','Modulus Fit Data', 'Hardening Fit Data', 'Yield Point', 'Location', 'SOUTHEAST');
         
         % use for manual scaling
-        mstrain = 0.05;
-        mstress = 4;
+        mstrain = 0.07;
+        mstress = 7;
         
         xlim([0 mstrain + mstrain/20])
         ylim([0 mstress + mstress/20])

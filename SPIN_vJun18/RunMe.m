@@ -6,39 +6,38 @@ filepath = '/Users/Gong/OneDrive - Georgia Institute of Technology/Projects/AMTi
 filename='TiMn-500C_8mm_100um_06-06-2018.xls';
 symb = '/'; % use / on mac, use \ on windows
 file=[filepath,symb,filename];
-tnum = '007'; %used for saving
+tnum = '001'; %used for saving
 sheet = ['Test ', tnum]; %name of sheet in file
 
 Rind = 100000; %nm ie. 100000 (100um), 16500 (16.5um)
 vs = 0.334; % sample Poisson ratio
 skip = [0.2 0.2]; % skips analysis with Fit1 R2 < 0.5 AND length(Fit2)/length(Fit1) < 0.1
 % modulus also has to be real
-limx = 50; %% set to 0 as default
+limx = 100; %% set to 0 as default
 limzerox = 0; %% set to 0 as default (250000 is typical for 100um on Ti)
-seg_start = 450;
-seg_end = 650;
+seg_start = 380;
+seg_end = 580;
 Eestimate = 0; % set to 0 if no need to check contact area (unit as GPa)
 
 % Zero Pt and Modulus Fit Analysis single test
 [TestData] = Driver(file, sheet, Rind, vs, skip, seg_start, seg_end, limzerox, limx, Eestimate);
 %% Filter Results
 
-wr = 1.5; % width ratio which is used to choose filter range according to peak width
+wr = 2; % width ratio which is used to choose filter range according to peak width
 bins = 20; % number of bins for the historgram plots
 MaxAnsNum = 50;
-TestMode = 0;
-
-
+TestMode = 0; % will automatically turn to 1 when 'No result left after NewFilt, need manual filter'
+shortest = 180;
+segnumspace = 10;
 
 
 close all
 longest = seg_end - seg_start;
-shortest = 110;
 if longest <= shortest
  	warning('shortest segment too long');
     return
 end
-seg_sizes = [shortest:5:longest]; % don't go crazy with the number of segments [20:5:200]
+seg_sizes = [shortest:segnumspace:longest]; % don't go crazy with the number of segments [20:5:200]
 
 % Sorting/Cut off Parameters
 % Filt: choose from 'R21', 'AAR1', 'MAR1', 'R22', 'AAR1', 'MAR1',
