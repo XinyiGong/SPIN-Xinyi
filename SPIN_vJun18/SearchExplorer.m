@@ -111,7 +111,8 @@ end
         mstrain = max(real(SSR.Strain));
         mstress = max(real(SSR.Stress));
         temp = [0 mstrain]; % for line plotting
-        plot(SSR.Strain, SSR.Stress,'b.', 'markersize', 10); % stress-strain data
+%         plot(SSR.Strain, SSR.Stress,'b.', 'markersize', 10); % stress-strain data
+        plot(SSR.Strain(FR(index).segment_start:end), SSR.Stress(FR(index).segment_start:end),'b.', 'markersize', 10); % stress-strain data (Start from modulus fit's first point-what's before does not contribute to effective ISS)
         plot(temp,[SSR.E_ind].*temp,'color',[0.5 0.5 0.5],'LineStyle','-','linewidth',2) % modulus line
         plot(temp, ([SSR.Hardening(1)].*temp + SSR.Hardening(2)), 'k--', 'linewidth', 2) % hardening slope line
         plot(temp, [SSR.E_ind].*(temp - Plastic.YS_offset),'color',[0.5 0.5 0.5],'LineStyle','--','linewidth',2); % strain offset line
@@ -124,8 +125,8 @@ end
         legend('Stress-Strain','Modulus Line', 'Hardening Fit', 'Strain Offset','Modulus Fit Data', 'Hardening Fit Data', 'Yield Point', 'Location', 'SOUTHEAST');
         
         % use for manual scaling
-        mstrain = 0.07;
-        mstress = 7;
+        mstrain = 0.05;
+        mstress = 5;
         
         xlim([0 mstrain + mstrain/20])
         ylim([0 mstress + mstress/20])

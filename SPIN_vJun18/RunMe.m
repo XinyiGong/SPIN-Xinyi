@@ -6,17 +6,17 @@ filepath = '/Users/Gong/OneDrive - Georgia Institute of Technology/Projects/AMTi
 filename='TiMn-500C_8mm_100um_06-06-2018.xls';
 symb = '/'; % use / on mac, use \ on windows
 file=[filepath,symb,filename];
-tnum = '001'; %used for saving
+tnum = '006'; %used for saving
 sheet = ['Test ', tnum]; %name of sheet in file
 
 Rind = 100000; %nm ie. 100000 (100um), 16500 (16.5um)
 vs = 0.334; % sample Poisson ratio
 skip = [0.2 0.2]; % skips analysis with Fit1 R2 < 0.5 AND length(Fit2)/length(Fit1) < 0.1
 % modulus also has to be real
-limx = 100; %% set to 0 as default
+limx = 150; %% set to 0 as default
 limzerox = 0; %% set to 0 as default (250000 is typical for 100um on Ti)
-seg_start = 380;
-seg_end = 580;
+seg_start = 520;
+seg_end =610;
 Eestimate = 0; % set to 0 if no need to check contact area (unit as GPa)
 
 % Zero Pt and Modulus Fit Analysis single test
@@ -27,7 +27,7 @@ wr = 2; % width ratio which is used to choose filter range according to peak wid
 bins = 20; % number of bins for the historgram plots
 MaxAnsNum = 50;
 TestMode = 0; % will automatically turn to 1 when 'No result left after NewFilt, need manual filter'
-shortest = 180;
+shortest = 70;
 segnumspace = 10;
 
 
