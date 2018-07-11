@@ -1,14 +1,9 @@
 function [TestData] = LoadTest(filename, sheet, radius, vs, skip, seg_start, seg_end)
 
 [num txt] = xlsread(filename, sheet);
-[~,type]=strtok(filename,'.')
-% num=[NaN(size(num,1),1),num]; % use only when necessary
-switch type
-    case '.xlsx'
-        num = num(:,1:6);
-    case '.xls'
-        num = num(:,2:7);
-end
+% num=[NaN(size(num,1),1),num];
+num = num(:,2:7); % use with "xls"
+num = num
 num = real(num);
 TestData.Filename = filename;
 
