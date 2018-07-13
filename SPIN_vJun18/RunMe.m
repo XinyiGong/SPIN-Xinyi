@@ -1,26 +1,28 @@
+%% Comments:2.allow users to select with sliders
+
 %% Load data and Analyze
 clear
 clc
 close all
-filepath = '/Users/Gong/Desktop';
-filename='Ti6242-dash.xlsx'; % note "xls" and "xlsx" should use different "LoadTest" versions
+filepath = '/Users/Gong/OneDrive - Georgia Institute of Technology/Projects/AMTiAlloy/Ti-Mn(May 2015)/NI/500C/TiMn-500C_14mm_100um_06-07-2018';
+filename='TiMn-500C_14mm_100um_06-07-2018.xls'; % note "xls" and "xlsx" should use different "LoadTest" versions
 symb = '/'; % use / on mac, use \ on windows
 file=[filepath,symb,filename];
-tnum = '005'; %used for saving
+tnum = '001'; %used for saving
 sheet = ['Test ', tnum]; %name of sheet in file
 
-Rind = 16500; %nm ie. 100000 (100um), 16500 (16.5um)
+Rind = 100000; %nm ie. 100000 (100um), 16500 (16.5um)
 vs = 0.334; % sample Poisson ratio
 skip = [0.2 0.2]; % skips analysis with Fit1 R2 < 0.5 AND length(Fit2)/length(Fit1) < 0.1
 % modulus also has to be real
 limx = 100; %% set to 0 as default
 limzerox = 0; %% set to 0 as default (250000 is typical for 100um on Ti)
-seg_start = 300;
-seg_end =600;
+seg_Displstart = 12; %nm in displacement
+seg_Displend =45;
 Eestimate = 0; % set to 0 if no need to check contact area (unit as GPa)
 
 % Zero Pt and Modulus Fit Analysis single test
-[TestData] = Driver(file, sheet, Rind, vs, skip, seg_start, seg_end, limzerox, limx, Eestimate);
+[TestData] = Driver(file, sheet, Rind, vs, skip, seg_Displstart, seg_Displend, limzerox, limx, Eestimate);
 %% Filter Results
 
 wr = 2; % width ratio which is used to choose filter range according to peak width
@@ -32,7 +34,7 @@ segnumspace = 10;
 
 
 close all
-longest = seg_end - seg_start;
+longest = TestData.SegEnd - TestData.SegStart;
 if longest <= shortest
  	warning('shortest segment too long');
     return

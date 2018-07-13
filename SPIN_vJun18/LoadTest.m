@@ -1,7 +1,7 @@
-function [TestData] = LoadTest(filename, sheet, radius, vs, skip, seg_start, seg_end)
+function [TestData] = LoadTest(filename, sheet, radius, vs, skip, seg_Displstart, seg_Displend)
 
 [num txt] = xlsread(filename, sheet);
-[~,type]=strtok(filename,'.')
+[~,type]=strtok(filename,'.');
 % num=[NaN(size(num,1),1),num]; % use only when necessary
 switch type
     case '.xlsx'
@@ -11,7 +11,6 @@ switch type
 end
 num = real(num);
 TestData.Filename = filename;
-
 TestData.Sheet = sheet;
 TestData.StiffnessSegmentStart = NaN;
 TestData.LoadSegmentEnd = NaN;
@@ -21,8 +20,8 @@ TestData.nui = 0.07;
 TestData.Ei = 1140;
 TestData.nus = vs;
 TestData.skip = skip;
-TestData.SegStart = seg_start;
-TestData.SegEnd = seg_end;
+TestData.SegStart = NaN;
+TestData.SegEnd = NaN;
 
 if isempty(num)
     warning('%s contains no data', sheet);
@@ -67,10 +66,11 @@ TestData.StiffnessSegmentStart = imd +1;
 
 % T(1:end, 7:9) = [h, P, S2];
 T(1:end, 7:9) = [h, P, S1];
-
+TestData.SegStart = find(h>seg_Displstart,1);
+TestData.SegEnd = find(h<seg_Displend,1,'last');
 TestData.Data = T;
 
-if TestData.StiffnessSegmentStart > seg_start || TestData.LoadSegmentEnd <= seg_end
+if TestData.StiffnessSegmentStart > TestData.SegStart || TestData.LoadSegmentEnd <= TestData.SegEnd
      warning('segment portion selection wrong');
     return
 end

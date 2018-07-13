@@ -1,4 +1,4 @@
-    function [ ] = plotint(TestData, seg_start, seg_end, limx, limzerox, Eestimate) % plots the stress-strain curve for the analysis selcted with the cursor
+    function [ ] = plotint(TestData, limx, limzerox, Eestimate) % plots the stress-strain curve for the analysis selcted with the cursor
 %     function [ ] = plotint(TestData, seg_start, seg_end, Plastic, limx, limzerox, BEuler) % plots the stress-strain curve for the analysis selcted with the cursor
 %         SSR = CalcStressStrainWithYield(TestData, analysis, Plastic);
         
@@ -47,8 +47,8 @@
         Displ = TestData.Data(:,7);
         S = TestData.Data(:,9);
         % note these are harmonic corrected, see LoadTest.m
-        segment_start = seg_start;
-        segment_end = seg_end;
+        segment_start = TestData.SegStart;
+        segment_end = TestData.SegEnd;
         
         
         subplot(2,2,1) % stiffness vs displ
