@@ -126,7 +126,7 @@ end
         
         % use for manual scaling
         mstrain = 0.05;
-        mstress = 5;
+        mstress = 4.5;
         
         xlim([0 mstrain + mstrain/20])
         ylim([0 mstress + mstress/20])

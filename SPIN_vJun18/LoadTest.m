@@ -7,7 +7,11 @@ switch type
     case '.xlsx'
         num = num(:,1:6);
     case '.xls'
-        num = num(:,2:7);
+        if filename(1)=='/';
+            num = num(:,2:7);
+        else
+            num = num(:,1:6);
+        end
 end
 num = real(num);
 TestData.Filename = filename;

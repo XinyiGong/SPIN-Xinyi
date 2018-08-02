@@ -1,24 +1,25 @@
-%% Comments:2.allow users to select with sliders
+%% Some ideas for next modifications:allow users to change region selection with slider at the last step
 
 %% Load data and Analyze
 clear
 clc
+clear
 close all
-filepath = '/Users/Gong/OneDrive - Georgia Institute of Technology/Projects/AMTiAlloy/Ti-Mn(May 2015)/NI/500C/TiMn-500C_14mm_100um_06-07-2018';
-filename='TiMn-500C_14mm_100um_06-07-2018.xls'; % note "xls" and "xlsx" should use different "LoadTest" versions
+filepath = '/Users/Gong/OneDrive - Georgia Institute of Technology/Projects/AMTiAlloy/Ti-Mn(May 2015)/NI/600C/TiMn-600C_8mm_100um_07-12-2018';
+filename='TiMn-600C_8mm_100um_07-12-2018.xls';
 symb = '/'; % use / on mac, use \ on windows
 file=[filepath,symb,filename];
-tnum = '001'; %used for saving
-sheet = ['Test ', tnum]; %name of sheet in file
+tnum = '008'; %used for saving
+sheet = ['Test ', tnum]; %name of sheet in file 
 
 Rind = 100000; %nm ie. 100000 (100um), 16500 (16.5um)
 vs = 0.334; % sample Poisson ratio
 skip = [0.2 0.2]; % skips analysis with Fit1 R2 < 0.5 AND length(Fit2)/length(Fit1) < 0.1
 % modulus also has to be real
-limx = 100; %% set to 0 as default
+limx = 90; %% set to 0 as default
 limzerox = 0; %% set to 0 as default (250000 is typical for 100um on Ti)
-seg_Displstart = 12; %nm in displacement
-seg_Displend =45;
+seg_Displstart = 8; %nm in displacement
+seg_Displend = 25;
 Eestimate = 0; % set to 0 if no need to check contact area (unit as GPa)
 
 % Zero Pt and Modulus Fit Analysis single test
@@ -29,7 +30,7 @@ wr = 2; % width ratio which is used to choose filter range according to peak wid
 bins = 20; % number of bins for the historgram plots
 MaxAnsNum = 50;
 TestMode = 0; % will automatically turn to 1 when 'No result left after NewFilt, need manual filter'
-shortest = 180;
+shortest = 120;
 segnumspace = 10;
 
 
